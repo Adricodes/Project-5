@@ -24,14 +24,20 @@ function displayProducts(products) {
     `
 }
 
+const imageList= [
+"http://localhost:3000/images/kanap01.jpeg", "http://localhost:3000/images/kanap02.jpeg",
+"http://localhost:3000/images/kanap03.jpeg", "http://localhost:3000/images/kanap04.jpeg"];
 
-const images = ["image"];
-const imageSource = "${product.imageUrl}";
+for (let i = 0; i < imageList.length; i++) {
+        console.log('items');
+};
+// }
+// const images= [image];
+// const imageSource= "${product.imageUrl}";
+// const homepageImages= document.getElementById('items');
 
-const homepageImages = document.getElementById('items');
-
-for (let i = 0; i < images.length; i = 0++); {
-    const img = document.createElement('img');
-    img.src = "${product.imageUrl}";
-    homepageImages.appendChild(img);
-}
+// for (let i=0; i<images.length;i++){
+//     const img=document.createElement('img');
+//     img.src="${product.imageUrl}";
+//     homepageImages.appendChild(img);
+// }
