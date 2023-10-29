@@ -24,20 +24,47 @@ function displayProducts(products) {
     `
 }
 
-const imageList= [
-"http://localhost:3000/images/kanap01.jpeg", "http://localhost:3000/images/kanap02.jpeg",
-"http://localhost:3000/images/kanap03.jpeg", "http://localhost:3000/images/kanap04.jpeg"];
 
-for (let i = 0; i < imageList.length; i++) {
-        console.log('items');
-};
-// }
-// const images= [image];
-// const imageSource= "${product.imageUrl}";
-// const homepageImages= document.getElementById('items');
+// TODO get the existing element on  the page where I can insert cards (section tag?)
+const itemHolder = document.getElementById('items');
+console.log(itemHolder);
 
-// for (let i=0; i<images.length;i++){
-//     const img=document.createElement('img');
-//     img.src="${product.imageUrl}";
-//     homepageImages.appendChild(img);
-// }
+function insertItems(items) {
+    console.log(items);
+}
+
+
+//TODO iterate over stuff that came from the backend API(array of articles from the demo)
+
+for (let i = 0; i < item.length; i++) {
+
+
+    // TODO AND get the current element in the array (an article for this demo)
+    const item = item[i];
+    console.log(item);
+
+
+
+
+    // TODO AND create new card DOM element which will be inserted into the homepage 
+    const itemElement = document.createElement('item');
+    itemElement.setAttribute('id', item.id);
+    itemElement.classList.add('item');
+
+
+    // TODO AND insert current elemnents info into new cards DOM element 
+
+    itemElement.innerHTML = `
+<a href="./product.html?id=42">
+  <article>
+    <img src="${product.imageUrl}" alt="Photo of a blue sofa, two seats">
+    <h3 class="productName">${product.name}</h3>
+    <p class="productDescription">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+  </article>
+</a>
+`;
+
+    // TODO AND append (child ) this new card DOM element to existing element on page (section tag?)
+
+    itemHolder.appendChild('itemElement');
+}
