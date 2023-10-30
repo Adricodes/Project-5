@@ -36,7 +36,7 @@ function insertItems(items) {
 
 //TODO iterate over stuff that came from the backend API(array of articles from the demo)
 
-for (let i = 0; i < item.length; i++) {
+for (let i = 0; i < itemHolder.length; i++) {
 
 
     // TODO AND get the current element in the array (an article for this demo)
