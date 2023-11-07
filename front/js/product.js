@@ -1,36 +1,51 @@
 // TODO Milestone 5
-// const queryString = window.location.search;
 
-// const urlParams = new URLSearchParams(queryString);
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const productId = urlParams.get('id')
 
-// const productId = urlParams.get('id')
+fetch(`http://localhost:3000/api/products/${productId}`)
+  .then(data => {
+    return data.json();
+  })
+  .then(product => {
+    displayProducts(product);
+  });
 
-// console.log(productId);
+function displayProducts(product) {
+  console.log(product);
+  const itemElement = document.querySelector('.item__img');
+  itemElement.innerHTML= `<img src="${product.imageUrl}" alt="${product.altTxt}">`;
 
-fetch('http://localhost:3000/api/products/107fb5b75607497b96722bda5b504926')
-    .then(data => {
-        return data.json();
-    })
-    .then(product_id => {
-        displayProduct(product_id);
-    });
 
-// /**
-//  * display the product cards on the page
-//  * 
-//  * @param {[Object]} product_id array of products
-//  */
-function displayProduct(product_id) {
-    console.log(product_id);
-    const productElement = document.getElementsByClassName("item_img");
+  //         itemElement.innerHTML += `
 
-    //TODO iterate over stuff that came from the backend API(array of articles from the demo)
+  //       <div class="item__img">
+  //       <!-- <img src="../images/logo.png" alt="Photo of a sofa"> -->
+  //        <img src="${product.imageUrl}" alt="${product.altTxt}"> 
+  //       </div>
+  //       <div class="item__content">
 
-    // for (let i = 0; i < products.length; i++) {
-    //     const product = products[i];
+  //         <div class="item__content__titlePrice">
+  //           <h1 id="title">><!--"${product.name}" --></h1>
+  //           <p>Prix : <span id="price"><!--"${product.price}"--></span>€</p>
+  //         </div>
 
-    productElement.innerHTML += `
-        <img src="../images/logo.png" alt="Photo of a sofa"> 
-        `;
+  //         <div class="item__content__description">
+  //           <p class="item__content__description__title">Description:</p>
+  //           <p id="description"><!--"${product.description}" --></p>
+  //         </div>
+
+  //         <div class="item__content__settings">
+  //           <div class="item__content__settings__color">
+  //             <label for="color-select">Chose your color:</label>
+  //             <select name="color-select" id="colors">
+  //             <!-- <option value="vert">"${product.colors}"</option>
+  //                      option value="blanc">"-->${product.colors}"</option>
+  // </option>  -->
+  //             </select>
+  //           </div>
+
+  //      </div>
+  //         `;
 }
-

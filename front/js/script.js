@@ -2,17 +2,17 @@ fetch('http://localhost:3000/api/products')
     .then(data => {
         return data.json();
     })
-    .then(product => {
-        displayProducts(product);
+    .then(products => {
+        displayProducts(products);
     });
 
 /**
  * display the product cards on the page
  * 
- * @param {[Object]} product array of products
+ * @param {[Object]} products array of products
  */
-function displayProducts(product) {
-    console.log(product);
+function displayProducts(products) {
+    console.log(products);
     const itemsElement = document.getElementById('items');
 
     //TODO iterate over stuff that came from the backend API(array of articles from the demo)
