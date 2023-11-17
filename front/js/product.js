@@ -15,37 +15,73 @@ fetch(`http://localhost:3000/api/products/${productId}`)
 function displayProducts(product) {
   console.log(product);
   const itemElement = document.querySelector('.item__img');
-  itemElement.innerHTML= `<img src="${product.imageUrl}" alt="${product.altTxt}">`;
+  itemElement.innerHTML = `
+  <img src="${product.imageUrl}" alt="${product.altTxt}">
+    `
+    ;
 
+  const titleElement = document.getElementById('title');
+  titleElement.innerText = `
+    ${product.name}
+    `
+    ;
 
-  //         itemElement.innerHTML += `
+  const priceElement = document.getElementById('price');
+  priceElement.innerText = `
+    ${product.price}
+    `
+    ;
 
-  //       <div class="item__img">
-  //       <!-- <img src="../images/logo.png" alt="Photo of a sofa"> -->
-  //        <img src="${product.imageUrl}" alt="${product.altTxt}"> 
-  //       </div>
-  //       <div class="item__content">
+  const descriptionElement = document.getElementById('description');
+  descriptionElement.innerText = `
+      ${product.description}
+      `
+    ;
 
-  //         <div class="item__content__titlePrice">
-  //           <h1 id="title">><!--"${product.name}" --></h1>
-  //           <p>Prix : <span id="price"><!--"${product.price}"--></span>€</p>
-  //         </div>
+  const colorElement = document.getElementById('colors');
 
-  //         <div class="item__content__description">
-  //           <p class="item__content__description__title">Description:</p>
-  //           <p id="description"><!--"${product.description}" --></p>
-  //         </div>
+  for (let i = 0; i < product.colors.length; i++) {
+    colorElement.innerHTML += `
+  <option value="${product.colors[i]}">${product.colors[i]}</option>
+      `
+      ;
+  }
 
-  //         <div class="item__content__settings">
-  //           <div class="item__content__settings__color">
-  //             <label for="color-select">Chose your color:</label>
-  //             <select name="color-select" id="colors">
-  //             <!-- <option value="vert">"${product.colors}"</option>
-  //                      option value="blanc">"-->${product.colors}"</option>
-  // </option>  -->
-  //             </select>
-  //           </div>
+  //cart array
+  const cartItems = [product._id, product.colors];
 
-  //      </div>
-  //         `;
+  const productQuantity = (product, 'itemQuantity');
+  const productQuantityPushed = cartItems.push(product.itemQuantity);
+  console.log(cartItems);
+
+  function addToCart(cartItems) {
+    itemPurchased = product.find((product) => cartItems === cartItems);
+    cartItems.push(itemPurchased);
+
+    console.log(cartItems);
+  }
 }
+const addToCartButton = document.getElementById('addToCart');
+addToCartButton.addEventListener('click', () => {
+  console.log(productId);
+  const colorSelectElement = document.getElementById('colors');
+  console.log(colorSelectElement.value);
+  const quantityElement = document.getElementById('quantity');
+  console.log(quantityElement.value);
+
+//TODO get the cart from Localstorage by using getItem()
+
+
+
+
+
+
+
+//NOTE if we get the cart and there's nothing then initialize it as an empty array
+
+//TODO Add product information using Localstorage (lines 77)
+
+//NOTE If there is not a product with the id in the cart simply ad it
+// but if we do find a product with the same color then we need to add to the quantity
+//NOTE if you find a product with the sam eid but a different color just add it
+});
