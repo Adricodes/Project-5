@@ -65,23 +65,38 @@ const addToCartButton = document.getElementById('addToCart');
 addToCartButton.addEventListener('click', () => {
   console.log(productId);
   const colorSelectElement = document.getElementById('colors');
+  const selectedColor = colorSelectElement.value;
   console.log(colorSelectElement.value);
   const quantityElement = document.getElementById('quantity');
+  const selectedQuantity = quantityElement.value
   console.log(quantityElement.value);
+  const selectedProduct = {
+    productId: productId,
+    color: selectedColor,
+    quantity: selectedQuantity
+  }
 
-//TODO get the cart from Localstorage by using getItem()
+  const cart = JSON.parse(localStorage.getItem('cart') || "[]");
 
+  //  Find item in cart
 
+  const findIteminCart = cart.find(item => item.id === selectedProduct.productId && item.color === selectedProduct.color);
 
+  if (findIteminCart) {
+    findIteminCart.quantity += selectedProduct.quantity;
+    console.log(findIteminCart);
+  }
+  else {
+    // If the item is not found, add the entire product to the cart
+    cart.push(selectedProduct);
+    console.log(selectedProduct);
+  }
+  console.log(cart);
 
+  //NOTE If there is not a product with the id in the cart simply ad it
+  // but if we do find a product with the same color then we need to add to the quantity
+  //NOTE if you find a product with the sam eid but a different color just add it
 
-
-
-//NOTE if we get the cart and there's nothing then initialize it as an empty array
-
-//TODO Add product information using Localstorage (lines 77)
-
-//NOTE If there is not a product with the id in the cart simply ad it
-// but if we do find a product with the same color then we need to add to the quantity
-//NOTE if you find a product with the sam eid but a different color just add it
+  localStorage.setItem("cart", JSON.stringify(cart));
+  console.log(cart);
 });
