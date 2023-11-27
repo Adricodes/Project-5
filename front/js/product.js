@@ -70,26 +70,36 @@ addToCartButton.addEventListener('click', () => {
   const quantityElement = document.getElementById('quantity');
   const selectedQuantity = quantityElement.value
   console.log(quantityElement.value);
+
+  const stringNumber = selectedProduct.quantity;
+  const number = parseInt(stringNumber); 
+  console.log(number); 
+
   const selectedProduct = {
     productId: productId,
     color: selectedColor,
-    quantity: selectedQuantity
+    quantity: number,
   }
 
   const cart = JSON.parse(localStorage.getItem('cart') || "[]");
 
   //  Find item in cart
 
-  const findIteminCart = cart.find(item => item.id === selectedProduct.productId && item.color === selectedProduct.color);
+  const findIteminCart = cart.find(item => item.productId === selectedProduct.productId && item.color === selectedProduct.color);
+
+  // went to line 74-76
+  // const stringNumber = selectedProduct.quantity;
+  // const number = parseInt(stringNumber);
+  // console.log(number); 
 
   if (findIteminCart) {
-    findIteminCart.quantity += selectedProduct.quantity;
-    console.log(findIteminCart);
+    findIteminCart.quantity += number;
   }
   else {
     // If the item is not found, add the entire product to the cart
     cart.push(selectedProduct);
     console.log(selectedProduct);
+
   }
   console.log(cart);
 
