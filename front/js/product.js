@@ -71,7 +71,7 @@ addToCartButton.addEventListener('click', () => {
   const selectedQuantity = quantityElement.value
   console.log(quantityElement.value);
 
-  const stringNumber = selectedProduct.quantity;
+  const stringNumber = selectedQuantity;
   const number = parseInt(stringNumber); 
   console.log(number); 
 
