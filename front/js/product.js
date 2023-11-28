@@ -47,7 +47,6 @@ function displayProducts(product) {
       ;
   }
 
-  //cart array
   const cartItems = [product._id, product.colors];
 
   const productQuantity = (product, 'itemQuantity');
@@ -61,6 +60,7 @@ function displayProducts(product) {
     console.log(cartItems);
   }
 }
+
 const addToCartButton = document.getElementById('addToCart');
 addToCartButton.addEventListener('click', () => {
   console.log(productId);
@@ -72,8 +72,8 @@ addToCartButton.addEventListener('click', () => {
   console.log(quantityElement.value);
 
   const stringNumber = selectedQuantity;
-  const number = parseInt(stringNumber); 
-  console.log(number); 
+  const number = parseInt(stringNumber);
+  console.log(number);
 
   const selectedProduct = {
     productId: productId,
@@ -83,29 +83,18 @@ addToCartButton.addEventListener('click', () => {
 
   const cart = JSON.parse(localStorage.getItem('cart') || "[]");
 
-  //  Find item in cart
-
   const findIteminCart = cart.find(item => item.productId === selectedProduct.productId && item.color === selectedProduct.color);
-
-  // went to line 74-76
-  // const stringNumber = selectedProduct.quantity;
-  // const number = parseInt(stringNumber);
-  // console.log(number); 
 
   if (findIteminCart) {
     findIteminCart.quantity += number;
   }
   else {
-    // If the item is not found, add the entire product to the cart
+
     cart.push(selectedProduct);
     console.log(selectedProduct);
 
   }
   console.log(cart);
-
-  //NOTE If there is not a product with the id in the cart simply ad it
-  // but if we do find a product with the same color then we need to add to the quantity
-  //NOTE if you find a product with the sam eid but a different color just add it
 
   localStorage.setItem("cart", JSON.stringify(cart));
   console.log(cart);
