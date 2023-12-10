@@ -46,26 +46,15 @@ function displayProducts(product, cartItem) {
 </div>
 </article>
 `
-  // TODO update total quantity on webpage
+;
+ 
   const currentTotalQuantity = parseInt(totalQuantityElement.innerText || 0);
   totalQuantityElement.innerText = cartItem.quantity + currentTotalQuantity;
 
   const totalPrice = parseInt(currentTotalPrice.innerText || 0);
-  currentTotalPrice.innerText = product.price * totalPrice;
-
-  // price for cart items
+  currentTotalPrice.innerText = product.price * cartItem.quantity + totalPrice;
 
 
-  // Get the total and display it
-
-
-  // You can then display the total in your HTML or use it as needed
-
-
-
-  // first thing: where is the current price coming from on the page? 
-  // And if it is an empty string, what should the value be instead so 
-  // that we can add the first cart item price to it?
 
 
 
