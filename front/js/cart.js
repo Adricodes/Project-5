@@ -71,7 +71,7 @@ function displayProducts(product, cartItem) {
   const totalPrice = parseInt(currentTotalPrice.innerText || 0);
   currentTotalPrice.innerText = product.price * cartItem.quantity + totalPrice;
 
-const removeItems = document.getElementsByClassName('deleteItem');
-for (let cartItem of cart) {
-  cartElement.addEventListener("click", function () {
-    console.log(removeItems)};
+// const removeItems = document.getElementsByClassName('deleteItem');
+// for (let cartItem of cart) {
+//   cartElement.addEventListener("click", function () {
+//     console.log(removeItems)};
