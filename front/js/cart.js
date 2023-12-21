@@ -1,7 +1,6 @@
 const cartElement = document.getElementById('cart__items');
 const totalQuantityElement = document.getElementById('totalQuantity');
 const currentTotalPrice = document.getElementById('totalPrice');
-// const deleteCartItem = document.getElementsByClassName('deleteItem');
 const cart = JSON.parse(localStorage.getItem('cart') || "[]");
 console.log(cart);
 
@@ -22,13 +21,22 @@ function displayProducts(product, cartItem) {
   console.log(cart);
 
   const articleElement = document.createElement('article');
+
   // TODO add "class", "data-id", and "data-color" attributes to articleElement using Javascript
   // for "class" see https://developer.mozilla.org/en-US/docs/Web/API/Element/classname
 
+  // const articleDiv = document.getElementById('cart__items');
+  // console.log(articleDiv.className);
+
   // for data attributes see https://developer.mozilla.org/en-US/docs/learn/html/howto/use_data_attributes
+
+  articleElement.dataset.id = cartItem.productId;
+  articleElement.dataset.color = cartItem.color;
+  articleElement.className = "cart__item";
+
+
   articleElement.innerHTML = `
-<article class="cart__item" data-id=${cartItem.productId} data-color="${product.color}"
-<div class='cart__item__img'>
+  <div class='cart__item__img'>
   <img src=${product.imageUrl} alt="${product.altTxt}">
 </div>
 <div class="cart__item__content">
@@ -49,21 +57,10 @@ function displayProducts(product, cartItem) {
     </div>
   </div>
 </div>
-</article> 
 `
     ;
 
-  // TODO append the articleElement to the createElement
-  // see https://developer.mozilla.org/en-US/docs/web/api/document/append
-
-
-  // TODO add event listeners to the articleElement.querySelector('.deleteItem')for now let the event listener
-  // see https://developer.mozilla.org/en-US/docs/web/api/eventtarget/addeventlistener
-
-  cartElement.innerHTML += `
-<article class="cart__item" data-id=${cartItem.productId} data-color=${cartItem.color}>
-`
-    ;
+  cartElement.appendChild(articleElement);
 
   const currentTotalQuantity = parseInt(totalQuantityElement.innerText || 0);
   totalQuantityElement.innerText = cartItem.quantity + currentTotalQuantity;
@@ -71,7 +68,41 @@ function displayProducts(product, cartItem) {
   const totalPrice = parseInt(currentTotalPrice.innerText || 0);
   currentTotalPrice.innerText = product.price * cartItem.quantity + totalPrice;
 
-// const removeItems = document.getElementsByClassName('deleteItem');
-// for (let cartItem of cart) {
-//   cartElement.addEventListener("click", function () {
-//     console.log(removeItems)};
+  const deleteItemLink = articleElement.querySelector('.deleteItem');
+
+
+  // TODO remove selected item from cart in LocalStorage
+
+  deleteItemLink.addEventListener('click', function ($event) {
+    const clickedElement = $event.target;
+
+    const articleElementClicked = clickedElement.closest("article")
+    const idProductDeleted = articleElementClicked.dataset.id
+    const colorProductDeleted = articleElementClicked.dataset.color
+    console.log(idProductDeleted)
+
+    let cart = JSON.parse(localStorage.getItem('cart') || "[]");
+
+    function isItemToNotDelete(cartItem) {
+      return !(cartItem.productId === idProductDeleted && cartItem.color === colorProductDeleted);
+    }
+    cart = cart.filter(isItemToNotDelete)
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    // TODO remove articleElementClicked from web page
+
+    const itemToDelete = articleElementClicked.remove();
+    console.log(itemToDelete);
+
+    //change quantity from input field
+    
+
+    // const itemToDelete = cart(articleElementClicked.remove())
+    // console.log(itemToDelete); 
+    // })
+
+  }
+// TODO add an EventListener for changing the quantity of cart items 
+// NOTE use change addEventListener
+// NOTE update the LocalStorage with the new cart
+  )}
