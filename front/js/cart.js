@@ -22,17 +22,10 @@ function displayProducts(product, cartItem) {
 
   const articleElement = document.createElement('article');
 
-  // TODO add "class", "data-id", and "data-color" attributes to articleElement using Javascript
-  // for "class" see https://developer.mozilla.org/en-US/docs/Web/API/Element/classname
-
-  // const articleDiv = document.getElementById('cart__items');
-  // console.log(articleDiv.className);
-
-  // for data attributes see https://developer.mozilla.org/en-US/docs/learn/html/howto/use_data_attributes
-
   articleElement.dataset.id = cartItem.productId;
   articleElement.dataset.color = cartItem.color;
   articleElement.className = "cart__item";
+  articleElement.input.value = cartItem.quantity;
 
 
   articleElement.innerHTML = `
@@ -94,15 +87,46 @@ function displayProducts(product, cartItem) {
     const itemToDelete = articleElementClicked.remove();
     console.log(itemToDelete);
 
-    //change quantity from input field
-    
+    const inputElement = document.querySelector('value');
 
+
+    // This function will be called when the quantity input changes
+    inputElement.addEventListener('change', function () {
+      const clickedItemToDelete = $event.target;
+
+      const articleClickedToDelete = clickedItemToDelete.closest('article')
+      const idProductToDelete = articleClickedToDelete.dataset.id
+      const colorProductToDelete = articleClickedToDelete.dataset.color
+      console.log(colorProductToDelete)
+
+      let cart = cart.filter(isItemToNotDelete)
+      localStorage.setItem("cart", JSON.stringify(cart)
+
+        // This function will be called when the quantity input changes
+
+
+        // const clickedElement = $event.target;
+
+        // const articleElementClicked = clickedElement.closest("article")
+        // const idProductDeleted = articleElementClicked.dataset.id
+        // const colorProductDeleted = articleElementClicked.dataset.color
+        // console.log(idProductDeleted)
+
+      // change quantity from input field
+
+
+
+      // inputElement.addEventListener("change", (event) => {
+      //   inputElement.textContent = ${event.target.value};
+      // }
+    })
     // const itemToDelete = cart(articleElementClicked.remove())
     // console.log(itemToDelete); 
     // })
 
   }
-// TODO add an EventListener for changing the quantity of cart items 
-// NOTE use change addEventListener
-// NOTE update the LocalStorage with the new cart
-  )}
+    // TODO add an EventListener for changing the quantity of cart items 
+    // NOTE use change addEventListener
+    // NOTE update the LocalStorage with the new cart
+  )
+}
