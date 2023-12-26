@@ -25,7 +25,7 @@ function displayProducts(product, cartItem) {
   articleElement.dataset.id = cartItem.productId;
   articleElement.dataset.color = cartItem.color;
   articleElement.className = "cart__item";
-  articleElement.input.value = cartItem.quantity;
+  // articleElement.input.value = cartItem.quantity;
 
 
   articleElement.innerHTML = `
@@ -87,46 +87,60 @@ function displayProducts(product, cartItem) {
     const itemToDelete = articleElementClicked.remove();
     console.log(itemToDelete);
 
-    const inputElement = document.querySelector('value');
+    // const inputElement = document.querySelector('value');
 
+    const inputElement = document.querySelector('.itemQuantity')
 
     // This function will be called when the quantity input changes
-    inputElement.addEventListener('change', function () {
-      const clickedItemToDelete = $event.target;
+    inputElement.addEventListener('change', function ($event) {
+      const clickedItemToChange = $event.target;
 
-      const articleClickedToDelete = clickedItemToDelete.closest('article')
-      const idProductToDelete = articleClickedToDelete.dataset.id
-      const colorProductToDelete = articleClickedToDelete.dataset.color
-      console.log(colorProductToDelete)
+      const articleClickedToChange = clickedItemToChange.closest('article')
+      const idProductToChange = articleClickedToChange.dataset.id
+      const colorProductToChange = articleClickedToChange.dataset.color
+      console.log(colorProductToChange)
 
-      let cart = cart.filter(isItemToNotDelete)
-      localStorage.setItem("cart", JSON.stringify(cart)
-
-        // This function will be called when the quantity input changes
-
-
-        // const clickedElement = $event.target;
-
-        // const articleElementClicked = clickedElement.closest("article")
-        // const idProductDeleted = articleElementClicked.dataset.id
-        // const colorProductDeleted = articleElementClicked.dataset.color
-        // console.log(idProductDeleted)
-
-      // change quantity from input field
+      // TODO get a fresh cart from local storage 
+      // const car=
+      const cart = JSON.parse(localStorage.getItem('cart') || "[]");
 
 
+      // FIXME create a new function for cart.find(...) which checks for the product id 
+      // and color in the cart
+      // const cartItemToChange = cart.find(...)
+      const cartItemToChange = cart.find(item => item.productId === selectedProduct.productId && item.color === selectedProduct.color)
+      if (findIteminCart) {
+        findIteminCart.quantity += number;
+      }
+      else {
+        cart.push(selectedProduct);
+        console.log(selectedProduct);
+      }
+      console.log(cart);
 
-      // inputElement.addEventListener("change", (event) => {
-      //   inputElement.textContent = ${event.target.value};
-      // }
-    })
-    // const itemToDelete = cart(articleElementClicked.remove())
-    // console.log(itemToDelete); 
-    // })
+      localStorage.setItem("cart", JSON.stringify(cart));
+      console.log(cart);
+    });
+    // let cart = cart.filter(isItemToNotDelete)
+    // localStorage.setItem("cart", JSON.stringify(cart)
 
-  }
-    // TODO add an EventListener for changing the quantity of cart items 
-    // NOTE use change addEventListener
-    // NOTE update the LocalStorage with the new cart
-  )
+    // This function will be called when the quantity input changes
+    
+
+    // change quantity from input field
+
+
+
+    // inputElement.addEventListener("change", (event) => {
+    //   inputElement.textContent = ${event.target.value};
+    // }
+  })
+  // const itemToDelete = cart(articleElementClicked.remove())
+  // console.log(itemToDelete); 
+  // })
+
 }
+// TODO add an EventListener for changing the quantity of cart items 
+// NOTE use change addEventListener
+// NOTE update the LocalStorage with the new cart
+
