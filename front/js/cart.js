@@ -46,12 +46,7 @@ function displayProducts(product, cartItem) {
 `;
 
   cartElement.appendChild(articleElement);
-
-  const currentTotalQuantity = parseInt(totalQuantityElement.innerText || 0);
-  totalQuantityElement.innerText = cartItem.quantity + currentTotalQuantity;
-
-  const totalPrice = parseInt(currentTotalPrice.innerText || 0);
-  currentTotalPrice.innerText = product.price * cartItem.quantity + totalPrice;
+  updateTotals(cartItem.quantity, product.price);
 
   const deleteItemLink = articleElement.querySelector('.deleteItem');
   const inputElement = articleElement.querySelector('.itemQuantity')
@@ -69,6 +64,10 @@ function displayProducts(product, cartItem) {
     cart = cart.filter(isItemToNotDelete)
     localStorage.setItem("cart", JSON.stringify(cart));
     articleElementClicked.remove();
+    // TODO update totals using new function
+    updateTotals(quantityChange, cartItemPrice)
+    const quantityChange = cartItem.quantity - currentTotalQuantity;
+   
   })
 
   inputElement.addEventListener('change', function ($event) {
@@ -81,10 +80,21 @@ function displayProducts(product, cartItem) {
     const cartItemToChange = cart.find(item => item.productId === idProductToChange && item.color === colorProductToChange)
     if (cartItemToChange) {
       cartItemToChange.quantity = quantity;
-    }
-    else {
-      cart.push(selectedProduct);
+       console.log(updateTotals)
     }
     localStorage.setItem("cart", JSON.stringify(cart));
-  });
+    // TODO update totals using new function
+    
+  updateTotals(quantityChange, cartItemPrice)
+  const cartItemPrice = articleClickedToChange.dataset.id;
+  })
+    ;
+}
+
+function updateTotals(quantityChange, cartItemPrice) {
+  const currentTotalQuantity = parseInt(totalQuantityElement.innerText || 0);
+  totalQuantityElement.innerText = quantity + currentTotalQuantity;
+
+  const totalPrice = parseInt(currentTotalPrice.innerText || 0);
+  currentTotalPrice.innerText = price * quantity + totalPrice;
 }
