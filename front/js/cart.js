@@ -71,10 +71,11 @@ function displayProducts(product, cartItem) {
     articleElementClicked.remove();
     // TODO update totals using new function
     updateTotals(quantityChange, cartItemPrice)
-    const quantityChange = cartItem.quantity - currentTotalQuantity;
-    // const quantityChange = cart.find(item => item.productId === idProductDeleted
-    //  && item.color === colorProductDeleted)
-
+    const quantityChange = cart.find(item => item.productId === idProductDeleted && item.color === colorProductDeleted)
+     if (quantityChange) {
+      quantityChange.quantity = quantity;  
+    }
+    localStorage.setItem("cart", JSON.stringify(cart));
   })
 
   inputElement.addEventListener('change', function ($event) {
