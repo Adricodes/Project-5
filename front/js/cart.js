@@ -2,6 +2,7 @@ const cartElement = document.getElementById('cart__items');
 const totalQuantityElement = document.getElementById('totalQuantity');
 const currentTotalPrice = document.getElementById('totalPrice');
 const cart = JSON.parse(localStorage.getItem('cart') || "[]");
+const cartProducts = [];
 
 for (let i = 0; i < cart.length; i++) {
   const cartItem = cart[i];
@@ -17,6 +18,10 @@ for (let i = 0; i < cart.length; i++) {
 
 function displayProducts(product, cartItem) {
   const articleElement = document.createElement('article');
+
+  if (!cartProducts.find(p => p.__id === product.__id)) {
+    cartProducts.push(product)
+  }
 
   articleElement.dataset.id = cartItem.productId;
   articleElement.dataset.color = cartItem.color;
@@ -67,7 +72,9 @@ function displayProducts(product, cartItem) {
     // TODO update totals using new function
     updateTotals(quantityChange, cartItemPrice)
     const quantityChange = cartItem.quantity - currentTotalQuantity;
-   
+    // const quantityChange = cart.find(item => item.productId === idProductDeleted
+    //  && item.color === colorProductDeleted)
+
   })
 
   inputElement.addEventListener('change', function ($event) {
@@ -80,21 +87,23 @@ function displayProducts(product, cartItem) {
     const cartItemToChange = cart.find(item => item.productId === idProductToChange && item.color === colorProductToChange)
     if (cartItemToChange) {
       cartItemToChange.quantity = quantity;
-       console.log(updateTotals)
     }
     localStorage.setItem("cart", JSON.stringify(cart));
     // TODO update totals using new function
-    
-  updateTotals(quantityChange, cartItemPrice)
-  const cartItemPrice = articleClickedToChange.dataset.id;
+
+    const cartItemPrice = cartProducts.find(p => p.__id === idProductToChange).price;
+    const quantityChange = 1;
+    console.log(cartItemPrice)
+
+    updateTotals(quantityChange, cartItemPrice)
   })
     ;
 }
 
 function updateTotals(quantityChange, cartItemPrice) {
   const currentTotalQuantity = parseInt(totalQuantityElement.innerText || 0);
-  totalQuantityElement.innerText = quantity + currentTotalQuantity;
+  totalQuantityElement.innerText = quantityChange + currentTotalQuantity;
 
   const totalPrice = parseInt(currentTotalPrice.innerText || 0);
-  currentTotalPrice.innerText = price * quantity + totalPrice;
+  currentTotalPrice.innerText = cartItemPrice * quantityChange + totalPrice;
 }
