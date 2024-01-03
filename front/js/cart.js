@@ -61,50 +61,46 @@ function displayProducts(product, cartItem) {
     const articleElementClicked = clickedElement.closest("article")
     const idProductDeleted = articleElementClicked.dataset.id
     const colorProductDeleted = articleElementClicked.dataset.color
-    let cart = JSON.parse(localStorage.getItem('cart') || "[]");
-
     function isItemToNotDelete(cartItem) {
       return !(cartItem.productId === idProductDeleted && cartItem.color === colorProductDeleted);
     }
+
+    const quantityChange = cart.find(item => item.productId === idProductDeleted && item.color === colorProductDeleted).quantity;
     cart = cart.filter(isItemToNotDelete)
+
+    updateTotals(-quantityChange, cartItemPrice)
     localStorage.setItem("cart", JSON.stringify(cart));
     articleElementClicked.remove();
     // TODO update totals using new function
-    updateTotals(quantityChange, cartItemPrice)
-    const quantityChange = cart.find(item => item.productId === idProductDeleted && item.color === colorProductDeleted)
-     if (quantityChange) {
-      quantityChange.quantity = quantity;  
-    }
-    localStorage.setItem("cart", JSON.stringify(cart));
+
+    inputElement.addEventListener('change', function ($event) {
+      const clickedItemToChange = $event.target;
+      const quantity = parseInt(clickedItemToChange.value);
+      const articleClickedToChange = clickedItemToChange.closest('article')
+      const idProductToChange = articleClickedToChange.dataset.id
+      const colorProductToChange = articleClickedToChange.dataset.color
+      const cart = JSON.parse(localStorage.getItem('cart') || "[]");
+      const cartItemToChange = cart.find(item => item.productId === idProductToChange && item.color === colorProductToChange)
+      if (cartItemToChange) {
+        cartItemToChange.quantity = quantity;
+      }
+      localStorage.setItem("cart", JSON.stringify(cart));
+      // TODO update totals using new function
+
+      // FIXME need to calculate quantityChange by substracting old quantity from new quantity (this will make negative value if quantity decreased)
+      const quantityChange = -1;
+      console.log(cartItemPrice)
+      updateTotals(quantityChange, cartItemPrice)
+
+    })
+      ;
   })
 
-  inputElement.addEventListener('change', function ($event) {
-    const clickedItemToChange = $event.target;
-    const quantity = parseInt(clickedItemToChange.value);
-    const articleClickedToChange = clickedItemToChange.closest('article')
-    const idProductToChange = articleClickedToChange.dataset.id
-    const colorProductToChange = articleClickedToChange.dataset.color
-    const cart = JSON.parse(localStorage.getItem('cart') || "[]");
-    const cartItemToChange = cart.find(item => item.productId === idProductToChange && item.color === colorProductToChange)
-    if (cartItemToChange) {
-      cartItemToChange.quantity = quantity;
-    }
-    localStorage.setItem("cart", JSON.stringify(cart));
-    // TODO update totals using new function
+  function updateTotals(quantityChange, cartItemPrice) {
+    const currentTotalQuantity = parseInt(totalQuantityElement.innerText || 0);
+    totalQuantityElement.innerText = quantityChange + currentTotalQuantity;
 
-    const cartItemPrice = cartProducts.find(p => p.__id === idProductToChange).price;
-    const quantityChange = 1;
-    console.log(cartItemPrice)
-
-    updateTotals(quantityChange, cartItemPrice)
-  })
-    ;
-}
-
-function updateTotals(quantityChange, cartItemPrice) {
-  const currentTotalQuantity = parseInt(totalQuantityElement.innerText || 0);
-  totalQuantityElement.innerText = quantityChange + currentTotalQuantity;
-
-  const totalPrice = parseInt(currentTotalPrice.innerText || 0);
-  currentTotalPrice.innerText = cartItemPrice * quantityChange + totalPrice;
+    const totalPrice = parseInt(currentTotalPrice.innerText || 0);
+    currentTotalPrice.innerText = cartItemPrice * quantityChange + totalPrice;
+  }
 }
