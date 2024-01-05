@@ -54,53 +54,49 @@ function displayProducts(product, cartItem) {
   updateTotals(cartItem.quantity, product.price);
 
   const deleteItemLink = articleElement.querySelector('.deleteItem');
-  const inputElement = articleElement.querySelector('.itemQuantity')
+  const inputElement = articleElement.querySelector('.itemQuantity');
 
   deleteItemLink.addEventListener('click', function ($event) {
     const clickedElement = $event.target;
     const articleElementClicked = clickedElement.closest("article")
     const idProductDeleted = articleElementClicked.dataset.id
     const colorProductDeleted = articleElementClicked.dataset.color
+    let cart = JSON.parse(localStorage.getItem('cart') || "[]");
     function isItemToNotDelete(cartItem) {
       return !(cartItem.productId === idProductDeleted && cartItem.color === colorProductDeleted);
     }
 
     const quantityChange = cart.find(item => item.productId === idProductDeleted && item.color === colorProductDeleted).quantity;
-    cart = cart.filter(isItemToNotDelete)
+    const cartItemPrice = cartProducts.find(item => item.id === idProductDeleted).price;
+
 
     updateTotals(-quantityChange, cartItemPrice)
     localStorage.setItem("cart", JSON.stringify(cart));
     articleElementClicked.remove();
+  });
+
+  inputElement.addEventListener('change', function ($event) {
+    const clickedItemToChange = $event.target;
+    const quantity = parseInt(clickedItemToChange.value);
+    const articleClickedToChange = clickedItemToChange.closest('article')
+    const idProductToChange = articleClickedToChange.dataset.id
+    const colorProductToChange = articleClickedToChange.dataset.color
+    const cart = JSON.parse(localStorage.getItem('cart') || "[]");
+    // cart = cart.filter(cartItemToChange);
+    const cartItemToChange = cart.find(item => item.productId === idProductToChange && item.color === colorProductToChange)
+    if (cartItemToChange) {
+      cartItemToChange.quantity = quantity;
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
     // TODO update totals using new function
 
-    inputElement.addEventListener('change', function ($event) {
-      const clickedItemToChange = $event.target;
-      const quantity = parseInt(clickedItemToChange.value);
-      const articleClickedToChange = clickedItemToChange.closest('article')
-      const idProductToChange = articleClickedToChange.dataset.id
-      const colorProductToChange = articleClickedToChange.dataset.color
-      const cart = JSON.parse(localStorage.getItem('cart') || "[]");
-      const cartItemToChange = cart.find(item => item.productId === idProductToChange && item.color === colorProductToChange)
-      if (cartItemToChange) {
-        cartItemToChange.quantity = quantity;
-      }
-      localStorage.setItem("cart", JSON.stringify(cart));
-      // TODO update totals using new function
+    // FIXME need to calculate quantityChange by substracting old quantity from new quantity (this will make negative value if quantity decreased)
+    // FIX ME total price is only showing after refreshing browser
+    const quantityChange = -1;
+    console.log(cartItemPrice)
+    updateTotals(quantityChange, cartItemPrice)
 
-      // FIXME need to calculate quantityChange by substracting old quantity from new quantity (this will make negative value if quantity decreased)
-      const quantityChange = -1;
-      console.log(cartItemPrice)
-      updateTotals(quantityChange, cartItemPrice)
+  });
 
-    })
-      ;
-  })
-
-  function updateTotals(quantityChange, cartItemPrice) {
-    const currentTotalQuantity = parseInt(totalQuantityElement.innerText || 0);
-    totalQuantityElement.innerText = quantityChange + currentTotalQuantity;
-
-    const totalPrice = parseInt(currentTotalPrice.innerText || 0);
-    currentTotalPrice.innerText = cartItemPrice * quantityChange + totalPrice;
-  }
 }
