@@ -66,37 +66,77 @@ function displayProducts(product, cartItem) {
       return !(cartItem.productId === idProductDeleted && cartItem.color === colorProductDeleted);
     }
 
-    const quantityChange = cart.find(item => item.productId === idProductDeleted && item.color === colorProductDeleted).quantity;
-    const cartItemPrice = cartProducts.find(item => item.id === idProductDeleted).price;
-
+    const cartItemToDeleted = cart.find(item => item.productId === idProductDeleted && item.color === colorProductDeleted);
+    const quantityChange = cartItemToDeleted.quantity;
+    console.log(cartProducts)
+    const cartItemPrice = cartProducts.find(item => item._id === idProductDeleted).price;
 
     updateTotals(-quantityChange, cartItemPrice)
+    cart = cart.filter(item => isItemToNotDelete(item));
     localStorage.setItem("cart", JSON.stringify(cart));
     articleElementClicked.remove();
   });
 
   inputElement.addEventListener('change', function ($event) {
-    const clickedItemToChange = $event.target;
-    const quantity = parseInt(clickedItemToChange.value);
-    const articleClickedToChange = clickedItemToChange.closest('article')
-    const idProductToChange = articleClickedToChange.dataset.id
-    const colorProductToChange = articleClickedToChange.dataset.color
+    const clickedElement = $event.target;
+    let quantityChange = parseInt(clickedElement.value);
+    const articleElementClicked = clickedElement.closest("article")
+    const idProductToChange = articleElementClicked.dataset.id
+    const colorProductToChange = articleElementClicked.dataset.color
     const cart = JSON.parse(localStorage.getItem('cart') || "[]");
-    // cart = cart.filter(cartItemToChange);
     const cartItemToChange = cart.find(item => item.productId === idProductToChange && item.color === colorProductToChange)
+    console.log(cartItemToChange)
     if (cartItemToChange) {
-      cartItemToChange.quantity = quantity;
+      const oldQuantity = cartItemToChange.quantity;
+      cartItemToChange.quantity = quantityChange;
+      quantityChange = oldQuantity - quantityChange;
     }
+
 
     localStorage.setItem("cart", JSON.stringify(cart));
     // TODO update totals using new function
 
     // FIXME need to calculate quantityChange by substracting old quantity from new quantity (this will make negative value if quantity decreased)
     // FIX ME total price is only showing after refreshing browser
-    const quantityChange = -1;
-    console.log(cartItemPrice)
+    const cartItemPrice = cartProducts.find(item => item._id === idProductToChange).price;
+    console.log(quantityChange)
     updateTotals(quantityChange, cartItemPrice)
 
-  });
-
+  })
+    ;
 }
+
+function updateTotals(quantityChange, cartItemPrice) {
+  const currentTotalQuantity = parseInt(totalQuantityElement.innerText || 0);
+  totalQuantityElement.innerText = quantityChange + currentTotalQuantity;
+  const totalPrice = parseInt(currentTotalPrice.innerText || 0);
+  currentTotalPrice.innerText = cartItemPrice * quantityChange + totalPrice;
+}
+
+// TODO validate customer information
+const firstName = document.getElementById('firstName').value;
+const lastName = document.getElementsById('lastName');
+const address = document.getElementById('address');
+const city = document.getElementById('city');
+const email = document.getElementById('email');
+const orderArea = document.getElementById('order');
+const WhatIsYourName = 'Charles Chaplin';
+console.log(firstName)
+
+// function validateFirstName(firstName) {
+//   const firstNameRegex =  /^[a-zA-Z]+([ \-']{0,1}[a-zA-Z]+){0,2}$/;
+//   return firstNameRegex.test(firstName);
+
+
+if (validateFirstName(WhatIsYourName)) {
+  console.log("OK Name!");
+} else {
+  console.log("Try Again!");
+}
+  // if (!firstNameRegex.test(firstName).value) {
+  //   invalidInput('First name invalid');
+  // } else {
+  //   alert('First name valid');
+  //   return true;
+  // }
+
