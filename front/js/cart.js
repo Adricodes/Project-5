@@ -114,29 +114,16 @@ function updateTotals(quantityChange, cartItemPrice) {
 }
 
 // TODO validate customer information
-const firstName = document.getElementById('firstName').value;
-const lastName = document.getElementsById('lastName');
-const address = document.getElementById('address');
-const city = document.getElementById('city');
-const email = document.getElementById('email');
-const orderArea = document.getElementById('order');
-const WhatIsYourName = 'Charles Chaplin';
-console.log(firstName)
-
-// function validateFirstName(firstName) {
-//   const firstNameRegex =  /^[a-zA-Z]+([ \-']{0,1}[a-zA-Z]+){0,2}$/;
-//   return firstNameRegex.test(firstName);
 
 
-if (validateFirstName(WhatIsYourName)) {
-  console.log("OK Name!");
-} else {
-  console.log("Try Again!");
-}
-  // if (!firstNameRegex.test(firstName).value) {
-  //   invalidInput('First name invalid');
-  // } else {
-  //   alert('First name valid');
-  //   return true;
-  // }
+const formElement = document.getElementById('cart__order__form');
 
+formElement.addEventListener('input', function ($event) {
+  const firstName = document.getElementById('firstName');
+  const lastName = document.getElementsById('lastName');
+  const address = document.getElementById('address');
+  const city = document.getElementById('city');
+  const email = document.getElementById('email');
+  const orderArea = document.getElementById('order');
+  const WhatIsYourName = 'Charles Chaplin';
+});
