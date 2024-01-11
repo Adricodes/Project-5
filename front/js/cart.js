@@ -100,7 +100,7 @@ function displayProducts(product, cartItem) {
     // FIX ME total price is only showing after refreshing browser
     const cartItemPrice = cartProducts.find(item => item._id === idProductToChange).price;
     console.log(quantityChange)
-    updateTotals(quantityChange, cartItemPrice)
+    updateTotals(-quantityChange, cartItemPrice)
 
   })
     ;
@@ -116,14 +116,79 @@ function updateTotals(quantityChange, cartItemPrice) {
 // TODO validate customer information
 
 
-const formElement = document.getElementById('cart__order__form');
+const firstNameRegex = /^[a-zA-Z]+$/;
+const firstNameInputElement = document.getElementById('firstName');
+const firstNameMessageElement = document.getElementById('firstNameErrorMsg');
+firstNameInputElement.addEventListener('change', function ($event) {
+  const firstName = $event.target.value;
+  if (firstNameRegex.test(firstName)) {
+    firstNameMessageElement.innerText = ''
+  } else {
+    firstNameMessageElement.innerText = 'First Name entered is not valid'
+  }
+})
 
-formElement.addEventListener('input', function ($event) {
-  const firstName = document.getElementById('firstName');
-  const lastName = document.getElementsById('lastName');
-  const address = document.getElementById('address');
-  const city = document.getElementById('city');
-  const email = document.getElementById('email');
-  const orderArea = document.getElementById('order');
-  const WhatIsYourName = 'Charles Chaplin';
-});
+const lastNameRegex = /^[a-zA-Z]+$/;
+const lastNameInputElement = document.getElementById('lastName');
+const lastNameMessageElement = document.getElementById('lastNameErrorMsg');
+lastNameInputElement.addEventListener('change', function ($event) {
+  const lastName = $event.target.value;
+  if (lastNameRegex.test(lastName)) {
+    lastNameMessageElement.innerText = ''
+  } else {
+    lastNameMessageElement.innerText = 'Last Name entered is not valid'
+  }
+})
+// TODO add change event listener for address using regex using [A-Za-z0-9'\.\-\s\,]
+const addressRegex = /^[0-9a-zA-Z\s.,#-]+$/;
+const addressInputElement = document.getElementById('address');
+const addressMessageElement = document.getElementById('addressErrorMsg');
+addressInputElement.addEventListener('change', function ($event) {
+  const address = $event.target.value;
+  if (addressRegex.test(address)) {
+    addressMessageElement.innerText = ''
+  } else {
+    addressMessageElement.innerText = 'Address entered is not valid'
+  }
+})
+
+const cityRegex = /^[a-zA-Z]+(?:[ -][a-zA-Z]+)*$/;
+const cityInputElement = document.getElementById('city');
+const cityMessageElement = document.getElementById('cityErrorMsg');
+cityInputElement.addEventListener('change', function ($event) {
+  const city = $event.target.value;
+  if (cityRegex.test(city)) {
+    cityMessageElement.innerText = ''
+  } else {
+    cityMessageElement.innerText = 'City entered is not valid'
+  }
+})
+
+const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+const emailInputElement = document.getElementById('email');
+const emailMessageElement = document.getElementById('emailErrorMsg');
+emailInputElement.addEventListener('change', function ($event) {
+  const email = $event.target.value;
+  if (emailRegex.test(email)) {
+    emailMessageElement.innerText = ''
+  } else {
+    emailMessageElement.innerText = 'Email entered is not valid'
+  }
+}
+
+// TODO add click event listener for order button
+const orderButtonElement = document.getElementById('order');
+orderButtonElement.addEventListener('change', function($event) {
+const order = $event.target.value;
+
+}
+
+);
+
+
+// TODO inside click event listener disable default behavior of the button 
+// TODO icel validate user contact information one last time maybe use reusable function
+// TODO icel create the request body with the contact object and the products array(NOTE look at using the array map method to creates the products array from thecart in local strage
+// TODO icel submit the order using fetch API (POST request)
+// TODO icel get the order confirmation ID from the response
+// TODO icel redirect the user to the confirmatin page with the confirmation ID in the URL NOTE use location.assign method to redirect the user to the comnfirmation page withthe confirmation ID in the URL
