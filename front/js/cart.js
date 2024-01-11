@@ -179,14 +179,16 @@ emailInputElement.addEventListener('change', function ($event) {
 // TODO add click event listener for order button
 // TODO inside click event listener disable default behavior of the button 
 const orderButtonElement = document.getElementById('order');
-orderButtonElement.addEventListener('click', function($event) {
-$event.preventDefault();
+orderButtonElement.addEventListener('click', function ($event) {
+  $event.preventDefault();
 })
 
 // TODO icel validate user contact information one last time maybe use reusable function
 
-  function validateForm(firstNameInputElement,) 
-  
+function validateForm(firstNameInputElement, orderButtonElement) {
+
+}
+
 // TODO icel create the request body with the contact object and the products array(NOTE look at using the array map method to creates the products array from thecart in local strage
 // TODO icel submit the order using fetch API (POST request)
 // TODO icel get the order confirmation ID from the response
