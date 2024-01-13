@@ -121,24 +121,40 @@ const firstNameInputElement = document.getElementById('firstName');
 const firstNameMessageElement = document.getElementById('firstNameErrorMsg');
 firstNameInputElement.addEventListener('change', function ($event) {
   const firstName = $event.target.value;
-  if (firstNameRegex.test(firstName)) {
+  // if (firstNameRegex.test(firstName)) {
+  validateFirstName(firstName);
+})
+
+function validateFirstName(firstName) {
+  const isValid = firstNameRegex.test(firstName);
+
+  if (isValid) {
     firstNameMessageElement.innerText = ''
   } else {
     firstNameMessageElement.innerText = 'First Name entered is not valid'
   }
-})
+  return isValid
+}
 
 const lastNameRegex = /^[a-zA-Z]+$/;
 const lastNameInputElement = document.getElementById('lastName');
 const lastNameMessageElement = document.getElementById('lastNameErrorMsg');
 lastNameInputElement.addEventListener('change', function ($event) {
   const lastName = $event.target.value;
-  if (lastNameRegex.test(lastName)) {
+  validateLastName(lastName);
+})
+
+function validateLastName(lastName) {
+  const isValid = lastNameRegex.test(lastName);
+
+  if (isValid) {
     lastNameMessageElement.innerText = ''
   } else {
     lastNameMessageElement.innerText = 'Last Name entered is not valid'
   }
-})
+  return isValid
+}
+
 // TODO add change event listener for address using regex using [A-Za-z0-9'\.\-\s\,]
 const addressRegex = /^[0-9a-zA-Z\s.,#-]+$/;
 const addressInputElement = document.getElementById('address');
@@ -150,6 +166,7 @@ addressInputElement.addEventListener('change', function ($event) {
   } else {
     addressMessageElement.innerText = 'Address entered is not valid'
   }
+  return isValid
 })
 
 const cityRegex = /^[a-zA-Z]+(?:[ -][a-zA-Z]+)*$/;
@@ -162,6 +179,7 @@ cityInputElement.addEventListener('change', function ($event) {
   } else {
     cityMessageElement.innerText = 'City entered is not valid'
   }
+  return isValid
 })
 
 const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -174,6 +192,7 @@ emailInputElement.addEventListener('change', function ($event) {
   } else {
     emailMessageElement.innerText = 'Email entered is not valid'
   }
+  return isValid
 })
 
 // TODO add click event listener for order button
@@ -185,8 +204,10 @@ orderButtonElement.addEventListener('click', function ($event) {
 
 // TODO icel validate user contact information one last time maybe use reusable function
 
-function validateForm(firstNameInputElement, orderButtonElement) {
-
+function validateForm() {
+  const isValid = validateFirstName(firstNameInputElement.value)
+  // TODO isValid = && validateFirstName(...);etc
+  console.log(isValid)
 }
 
 // TODO icel create the request body with the contact object and the products array(NOTE look at using the array map method to creates the products array from thecart in local strage
