@@ -92,18 +92,12 @@ function displayProducts(product, cartItem) {
       quantityChange = oldQuantity - quantityChange;
     }
 
-
     localStorage.setItem("cart", JSON.stringify(cart));
-    // TODO update totals using new function
 
-    // FIXME need to calculate quantityChange by substracting old quantity from new quantity (this will make negative value if quantity decreased)
-    // FIX ME total price is only showing after refreshing browser
     const cartItemPrice = cartProducts.find(item => item._id === idProductToChange).price;
     console.log(quantityChange)
     updateTotals(-quantityChange, cartItemPrice)
-
   })
-    ;
 }
 
 function updateTotals(quantityChange, cartItemPrice) {
@@ -113,15 +107,11 @@ function updateTotals(quantityChange, cartItemPrice) {
   currentTotalPrice.innerText = cartItemPrice * quantityChange + totalPrice;
 }
 
-// TODO validate customer information
-
-
 const firstNameRegex = /^[a-zA-Z]+$/;
 const firstNameInputElement = document.getElementById('firstName');
 const firstNameMessageElement = document.getElementById('firstNameErrorMsg');
 firstNameInputElement.addEventListener('change', function ($event) {
   const firstName = $event.target.value;
-  // if (firstNameRegex.test(firstName)) {
   validateFirstName(firstName);
 })
 
@@ -155,62 +145,109 @@ function validateLastName(lastName) {
   return isValid
 }
 
-// TODO add change event listener for address using regex using [A-Za-z0-9'\.\-\s\,]
-const addressRegex = /^[0-9a-zA-Z\s.,#-]+$/;
+const addressRegex = /[A-Za-z0-9'\.\-\s\,]/;
 const addressInputElement = document.getElementById('address');
 const addressMessageElement = document.getElementById('addressErrorMsg');
 addressInputElement.addEventListener('change', function ($event) {
   const address = $event.target.value;
-  if (addressRegex.test(address)) {
+  validateAddress(address);
+})
+
+function validateAddress(address) {
+  const isValid = addressRegex.test(address);
+
+  if (isValid) {
     addressMessageElement.innerText = ''
   } else {
     addressMessageElement.innerText = 'Address entered is not valid'
   }
   return isValid
-})
+}
 
 const cityRegex = /^[a-zA-Z]+(?:[ -][a-zA-Z]+)*$/;
 const cityInputElement = document.getElementById('city');
 const cityMessageElement = document.getElementById('cityErrorMsg');
 cityInputElement.addEventListener('change', function ($event) {
   const city = $event.target.value;
-  if (cityRegex.test(city)) {
+  validateCity(city);
+})
+function validateCity(city) {
+  const isValid = cityRegex.test(city);
+
+  if (isValid) {
     cityMessageElement.innerText = ''
   } else {
     cityMessageElement.innerText = 'City entered is not valid'
   }
   return isValid
-})
+}
 
 const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 const emailInputElement = document.getElementById('email');
 const emailMessageElement = document.getElementById('emailErrorMsg');
 emailInputElement.addEventListener('change', function ($event) {
   const email = $event.target.value;
-  if (emailRegex.test(email)) {
+  validateEmail(email);
+})
+function validateEmail(email) {
+  const isValid = emailRegex.test(email);
+
+  if (isValid) {
     emailMessageElement.innerText = ''
   } else {
     emailMessageElement.innerText = 'Email entered is not valid'
   }
   return isValid
-})
+}
 
-// TODO add click event listener for order button
-// TODO inside click event listener disable default behavior of the button 
 const orderButtonElement = document.getElementById('order');
 orderButtonElement.addEventListener('click', function ($event) {
   $event.preventDefault();
+  const isValid = validateForm();
+
+  // TODO icel create the request body with the contact object and the products array
+  //  (NOTE look at using the array map method to creates the products array from thecart in local strage
+  const order = {
+    "contact": {
+      "firstName": firstName.value,
+      "lastName": lastName.value,
+      "address": address.value,
+      "city": city.value,
+      "email": email.value
+    },
+    "products": [
+      "107fb5b75607497b96722bda5b504926"
+    ]
+  }
+  console.log(order)
+
+  //TODO only place order if contact information is valid NOTE to use isValid VARIABLE FOR if condition
+  fetch('http://localhost:3000/api/products/order',
+    {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(order)
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data)
+
+      // TODO icel get the order confirmation ID from the response NOTE declare variable for orderId
+
+
+      console.log(data.orderId)
+      // TODO icel redirect the user to the confirmatin page with the confirmation ID  
+      //in the URL NOTE use location.assign method to redirect the user to the comnfirmation 
+      //page withthe confirmation ID in the URL
+    })
+    .catch(error => console.error(error));
 })
 
-// TODO icel validate user contact information one last time maybe use reusable function
-
 function validateForm() {
-  const isValid = validateFirstName(firstNameInputElement.value)
-  // TODO isValid = && validateFirstName(...);etc
-  console.log(isValid)
+  let isValid = validateFirstName(firstNameInputElement.value);
+  isValid = validateLastName(lastNameInputElement.value) && isValid;
+  isValid = validateAddress(addressInputElement.value) && isValid;
+  isValid = validateEmail(emailInputElement.value) && isValid;
+  isValid = validateCity(cityInputElement.value) && isValid;
+  isValid = validateEmail(emailInputElement.value) && isValid;
+  return isValid;
 }
-
-// TODO icel create the request body with the contact object and the products array(NOTE look at using the array map method to creates the products array from thecart in local strage
-// TODO icel submit the order using fetch API (POST request)
-// TODO icel get the order confirmation ID from the response
-// TODO icel redirect the user to the confirmatin page with the confirmation ID in the URL NOTE use location.assign method to redirect the user to the comnfirmation page withthe confirmation ID in the URL
