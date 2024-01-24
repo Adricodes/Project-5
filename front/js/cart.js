@@ -145,7 +145,7 @@ function validateLastName(lastName) {
   return isValid
 }
 
-const addressRegex = /[A-Za-z0-9'\.\-\s\,]/;
+const addressRegex = /^[0-9]{1,5}[a-z-A-Z\s]{2,8}[a-z-A-Z -.,]{3,40}$/;
 const addressInputElement = document.getElementById('address');
 const addressMessageElement = document.getElementById('addressErrorMsg');
 addressInputElement.addEventListener('change', function ($event) {
@@ -204,22 +204,18 @@ const orderButtonElement = document.getElementById('order');
 orderButtonElement.addEventListener('click', function ($event) {
   $event.preventDefault();
   const isValid = validateForm();
-
-  // TODO icel create the request body with the contact object and the products array
-  //  (NOTE look at using the array map method to creates the products array from thecart in local strage
+  const products = cart.map(item => item.productId)
   const order = {
     "contact": {
-      "firstName": firstName.value,
-      "lastName": lastName.value,
-      "address": address.value,
-      "city": city.value,
-      "email": email.value
+      "firstName": firstNameInputElement.value,
+      "lastName": lastNameInputElement.value,
+      "address": addressInputElement.value,
+      "city": cityInputElement.value,
+      "email": emailInputElement.value
     },
-    "products": [
-      "107fb5b75607497b96722bda5b504926"
-    ]
+    "products": products,
   }
-  console.log(order)
+  localStorage.setItem("productIds", JSON.stringify(Map));
 
   //TODO only place order if contact information is valid NOTE to use isValid VARIABLE FOR if condition
   fetch('http://localhost:3000/api/products/order',
@@ -229,12 +225,8 @@ orderButtonElement.addEventListener('click', function ($event) {
     })
     .then(response => response.json())
     .then(data => {
-      console.log(data)
-
-      // TODO icel get the order confirmation ID from the response NOTE declare variable for orderId
-
-
-      console.log(data.orderId)
+      const orderId = data.orderId;
+      console.log(orderId)
       // TODO icel redirect the user to the confirmatin page with the confirmation ID  
       //in the URL NOTE use location.assign method to redirect the user to the comnfirmation 
       //page withthe confirmation ID in the URL
