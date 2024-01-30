@@ -200,38 +200,44 @@ function validateEmail(email) {
   return isValid
 }
 
+
 const orderButtonElement = document.getElementById('order');
 orderButtonElement.addEventListener('click', function ($event) {
   $event.preventDefault();
   const isValid = validateForm();
-  const products = cart.map(item => item.productId)
-  const order = {
-    "contact": {
-      "firstName": firstNameInputElement.value,
-      "lastName": lastNameInputElement.value,
-      "address": addressInputElement.value,
-      "city": cityInputElement.value,
-      "email": emailInputElement.value
-    },
-    "products": products,
-  }
-  localStorage.setItem("productIds", JSON.stringify(Map));
 
-  //TODO only place order if contact information is valid NOTE to use isValid VARIABLE FOR if condition
-  fetch('http://localhost:3000/api/products/order',
-    {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(order)
-    })
-    .then(response => response.json())
-    .then(data => {
-      const orderId = data.orderId;
-      console.log(orderId)
-      // TODO icel redirect the user to the confirmatin page with the confirmation ID  
-      //in the URL NOTE use location.assign method to redirect the user to the comnfirmation 
-      //page withthe confirmation ID in the URL
-    })
-    .catch(error => console.error(error));
+  if (isValid) {
+    const products = cart.map(item => item.productId)
+    const order = {
+      "contact": {
+        "firstName": firstNameInputElement.value,
+        "lastName": lastNameInputElement.value,
+        "address": addressInputElement.value,
+        "city": cityInputElement.value,
+        "email": emailInputElement.value
+      },
+      "products": products,
+    }
+    fetch('http://localhost:3000/api/products/order',
+      {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(order)
+      })
+      .then(response => response.json())
+      .then(data => {
+        const orderId = data.orderId;
+        console.log(orderId)
+        // TODO icel redirect the user to the confirmatin page with the confirmation ID  
+        //in the URL NOTE use location.assign method to redirect the user to the comnfirmation 
+        //page withthe confirmation ID in the URL
+      })
+      .catch(error => console.error(error));
+  }
+
+
+  const confirmationDirect = 'http://127.0.0.1:5500/front/html/confirmation.html'
+  location.assign(confirmationDirect)
+
 })
 
 function validateForm() {

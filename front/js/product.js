@@ -19,22 +19,14 @@ function displayProducts(product) {
     ;
 
   const titleElement = document.getElementById('title');
-  titleElement.innerText = `
-    ${product.name}
-    `
-    ;
+  titleElement.innerText = product.name;
 
   const priceElement = document.getElementById('price');
-  priceElement.innerText = `
-    ${product.price}
-    `
-    ;
+  priceElement.innerText = product.price;
 
   const descriptionElement = document.getElementById('description');
-  descriptionElement.innerText = `
-      ${product.description}
-      `
-    ;
+  descriptionElement.innerText = product.description;
+
 
   const colorElement = document.getElementById('colors');
 
