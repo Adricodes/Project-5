@@ -235,7 +235,7 @@ orderButtonElement.addEventListener('click', function ($event) {
   }
 
 
-  const confirmationDirect = 'http://127.0.0.1:5500/front/html/confirmation.html'
+  const confirmationDirect = 'http://127.0.0.1:5500/front/html/confirmation.html?confirmation=65431343444684674'
   location.assign(confirmationDirect)
 
 })

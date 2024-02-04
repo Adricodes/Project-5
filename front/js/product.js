@@ -10,6 +10,11 @@ fetch(`http://localhost:3000/api/products/${productId}`)
     displayProducts(product);
   });
 
+/**
+ * Display products on page
+ * 
+ * @param {object} product - product to display
+ */
 function displayProducts(product) {
   console.log(product);
   const itemElement = document.querySelector('.item__img');
@@ -88,4 +93,5 @@ addToCartButton.addEventListener('click', () => {
 
   localStorage.setItem("cart", JSON.stringify(cart));
   console.log(cart);
+  alert('Product added to cart')
 });
