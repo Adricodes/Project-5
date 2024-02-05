@@ -22,9 +22,7 @@ function displayProducts(product) {
   <img src="${product.imageUrl}" alt="${product.altTxt}">
     `
     ;
-
-  const titleElement = document.getElementById('title');
-  titleElement.innerText = product.name;
+    
 
   const priceElement = document.getElementById('price');
   priceElement.innerText = product.price;
@@ -48,6 +46,10 @@ function displayProducts(product) {
   const productQuantityPushed = cartItems.push(product.itemQuantity);
   console.log(cartItems);
 
+  /**
+   * display cartItems on page
+   * @param {object} cartItems items to be purchased
+   */
   function addToCart(cartItems) {
     itemPurchased = product.find((product) => cartItems === cartItems);
     cartItems.push(itemPurchased);

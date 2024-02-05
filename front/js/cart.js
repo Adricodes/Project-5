@@ -16,6 +16,11 @@ for (let i = 0; i < cart.length; i++) {
     });
 }
 
+/** display items available to purchase 
+ * 
+ * @param {object} product items available to purchase
+ * @param {object} cartItem item displayed in cart
+ */
 function displayProducts(product, cartItem) {
   const articleElement = document.createElement('article');
 
@@ -100,6 +105,11 @@ function displayProducts(product, cartItem) {
   })
 }
 
+/**
+ * Displays changes in quantity and price in cart
+ * @param {object} quantityChange 
+ * @param {object} cartItemPrice 
+ */
 function updateTotals(quantityChange, cartItemPrice) {
   const currentTotalQuantity = parseInt(totalQuantityElement.innerText || 0);
   totalQuantityElement.innerText = quantityChange + currentTotalQuantity;
@@ -115,6 +125,11 @@ firstNameInputElement.addEventListener('change', function ($event) {
   validateFirstName(firstName);
 })
 
+/**
+ * Shows customer input information if it's valid
+ * @param {pbject} firstName 
+ * @returns 
+ */
 function validateFirstName(firstName) {
   const isValid = firstNameRegex.test(firstName);
 
