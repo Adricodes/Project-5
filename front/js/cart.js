@@ -230,6 +230,7 @@ orderButtonElement.addEventListener('click', function ($event) {
         "address": addressInputElement.value,
         "city": cityInputElement.value,
         "email": emailInputElement.value
+
       },
       "products": products,
     }
@@ -242,13 +243,10 @@ orderButtonElement.addEventListener('click', function ($event) {
       .then(data => {
         const orderId = data.orderId;
         console.log(orderId)
-        // TODO icel redirect the user to the confirmatin page with the confirmation ID  
-        //in the URL NOTE use location.assign method to redirect the user to the comnfirmation 
-        //page withthe confirmation ID in the URL
       })
       .catch(error => console.error(error));
   }
-
+localStorage.clear();
 
   const confirmationDirect = 'http://127.0.0.1:5500/front/html/confirmation.html?confirmation=65431343444684674'
   location.assign(confirmationDirect)
@@ -264,3 +262,6 @@ function validateForm() {
   isValid = validateEmail(emailInputElement.value) && isValid;
   return isValid;
 }
+
+
+
